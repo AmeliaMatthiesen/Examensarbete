@@ -1,23 +1,16 @@
-import express from 'express';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import express from "express";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(express.json());
+app.use(express.json()); // Viktigt för att hantera JSON-data!
 app.use(cors());
 
-// Enkel test-route
-app.get('/api/test', (req, res) => {
-    res.json({ message: 'Backend fungerar med ES-moduler! 🚀' });
+// Test-route
+app.get("/api/test", (req, res) => {
+    res.json({ message: "API works!" });
 });
 
-// Starta servern
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
