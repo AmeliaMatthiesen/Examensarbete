@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import './App.css';
+import ZustandTest  from '../src/components/ZustandTest';
 
 function App() {
 
@@ -7,6 +6,7 @@ function App() {
     <>
       <div>
         <p>Hello world</p>
+        <ZustandTest />
       </div>
     </>
   );
