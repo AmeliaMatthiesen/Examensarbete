@@ -1,4 +1,4 @@
-import { useTaskStore } from '@/stores/useTaskStore';
+import { useTaskStore } from '../stores/useTaskStore';
 
 const TaskList = () => {
   const tasks = useTaskStore((state) => state.tasks);
