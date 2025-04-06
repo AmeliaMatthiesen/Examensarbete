@@ -28,18 +28,31 @@ const taskSchema = new mongoose.Schema({
     enum: ['todo', 'in-progress', 'done'],
     default: 'todo'
   },
-  dueDate: Date,
-  recurring: {
-    type: String,
-    enum: {
-      values: ['daily', 'weekly', 'monthly', 'yearly'],
-      message: 'recurring must be one of: daily, weekly, monthly, yearly'
-    },
-    default: 'daily'
+
+ // Recurring logic
+ isRecurring: {
+  type: Boolean,
+  default: false
+},
+recurring: {
+  type: String,
+  enum: {
+    values: ['daily', 'weekly', 'monthly', 'yearly'],
+    message: 'recurring must be one of: daily, weekly, monthly, yearly'
   },
-  subtasks: [subtaskSchema] 
+  default: null
+},
+// TODO: Add logic to auto-generate nextOccurrence based on recurring pattern
+nextOccurrence: {
+  type: Date,
+  default: null
+},
+
+subtasks: [subtaskSchema]
+
 }, {
-  timestamps: true 
+timestamps: true
 });
 
-export default mongoose.model('Task', taskSchema);
+const Task = mongoose.model('Task', taskSchema);
+export default Task;
