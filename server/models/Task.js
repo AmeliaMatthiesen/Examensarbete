@@ -9,8 +9,7 @@ const subtaskSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   }
-}, { _id: false }); 
-
+}, { _id: false });
 
 const taskSchema = new mongoose.Schema({
   user: {
@@ -20,38 +19,64 @@ const taskSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: true
+    required: true,
+    maxlength: 100
   },
-  description: String,
+  description: {
+    type: String,
+    default: '',
+    maxlength: 1000
+  },
   status: {
     type: String,
     enum: ['todo', 'in-progress', 'done'],
     default: 'todo'
   },
 
- // Recurring logic
- isRecurring: {
-  type: Boolean,
-  default: false
-},
-recurring: {
-  type: String,
-  enum: {
-    values: ['daily', 'weekly', 'monthly', 'yearly'],
-    message: 'recurring must be one of: daily, weekly, monthly, yearly'
+  // 🔁 Recurring logic
+  isRecurring: {
+    type: Boolean,
+    default: false
   },
-  default: null
-},
-// TODO: Add logic to auto-generate nextOccurrence based on recurring pattern
-nextOccurrence: {
-  type: Date,
-  default: null
-},
+  recurring: {
+    type: String,
+    enum: {
+      values: ['daily', 'weekly', 'monthly', 'yearly'],
+      message: 'recurring must be one of: daily, weekly, monthly, yearly'
+    },
+    default: null,
+    validate: {
+      validator: function (v) {
+        return !this.isRecurring || v;
+      },
+      message: 'Recurring type is required when isRecurring is true'
+    }
+  },
+  repeatInterval: {
+    type: Number,
+    default: null,
+    validate: {
+      validator: function (v) {
+        return !this.isRecurring || (Number.isInteger(v) && v > 0);
+      },
+      message: 'Repeat interval must be a positive integer when isRecurring is true'
+    }
+  },
+  nextOccurrence: {
+    type: Date,
+    default: null
+  },
 
-subtasks: [subtaskSchema]
+  // 🔗 Google Calendar
+  googleEventId: {
+    type: String,
+    default: null
+  },
 
+  // ✅ Subtasks
+  subtasks: [subtaskSchema]
 }, {
-timestamps: true
+  timestamps: true
 });
 
 const Task = mongoose.model('Task', taskSchema);

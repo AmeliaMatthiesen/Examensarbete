@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -13,7 +14,15 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+
+    const user = await User.findById(decoded.id).select('-password');
+    if (!user) {
+      const error = new Error('Unauthorized: User not found');
+      error.statusCode = 401;
+      return next(error);
+    }
+
+    req.user = user; // Detta används i t.ex. taskController
     next();
   } catch (err) {
     const error = new Error('Unauthorized: Invalid token');
