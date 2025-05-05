@@ -26,7 +26,18 @@ const PORT = process.env.PORT || 5000;
 
 // Global middleware
 app.use(express.json());
-app.use(cors());
+const allowedOrigins = [ 
+  "http://localhost:5173",
+  "https://din-vercel-url.vercel.app"
+];
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
+
+
+
 
 // Health check (utan DB)
 app.get("/api/test", (req, res) => {
