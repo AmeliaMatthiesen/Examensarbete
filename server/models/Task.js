@@ -22,6 +22,11 @@ const taskSchema = new mongoose.Schema({
     required: true,
     maxlength: 100
   },
+  type: {
+    type: String,
+    enum: ['development', 'meeting', 'communication', 'planning'],
+    required: true,
+  },
   description: {
     type: String,
     default: '',
@@ -32,6 +37,22 @@ const taskSchema = new mongoose.Schema({
     enum: ['todo', 'in-progress', 'done'],
     default: 'todo'
   },
+  details: {
+  type: String,
+  default: "",
+  maxlength: 1000,
+},
+
+time: {
+  type: Date,
+  default: null,
+},
+
+participants: {
+  type: String, // alt: [String] om flera personer
+  default: "",
+},
+
 
   // 🔁 Recurring logic
   isRecurring: {

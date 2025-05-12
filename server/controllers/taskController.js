@@ -19,25 +19,35 @@ export const createTask = async (req, res, next) => {
     const {
       title,
       description,
-      dueDate,
       status,
+      type,
+      time,
+      participants,
+      details,
       isRecurring,
       recurring,
       repeatInterval,
       subtasks,
     } = req.body;
 
+    // Log for debugging
+    console.log("📦 Incoming task:", req.body);
+
+    // Calculate recurring logic
     const nextOccurrence =
-      isRecurring && dueDate
-        ? calculateNextOccurrence(dueDate, recurring, repeatInterval)
+      isRecurring && time
+        ? calculateNextOccurrence(time, recurring, repeatInterval)
         : null;
 
     const task = await Task.create({
       user: req.user._id,
       title,
       description,
-      dueDate,
       status,
+      type,
+      time,
+      participants,
+      details,
       isRecurring,
       recurring,
       repeatInterval,
@@ -47,7 +57,7 @@ export const createTask = async (req, res, next) => {
 
     const user = await User.findById(req.user._id);
 
-    // Om Google-tokens finns, synca med kalender
+    // Optional: sync to Google Calendar if tokens exist
     if (user.googleTokens) {
       try {
         const eventId = await createCalendarEvent(user.googleTokens, task);
@@ -55,12 +65,12 @@ export const createTask = async (req, res, next) => {
         await task.save();
       } catch (calendarErr) {
         console.warn('⚠️ Calendar sync failed:', calendarErr.message);
-        // Kör vidare ändå – upp till dig om du vill informera klienten
       }
     }
 
     res.status(201).json(task);
   } catch (err) {
+    console.error("❌ Task creation failed:", err);
     next(err);
   }
 };
