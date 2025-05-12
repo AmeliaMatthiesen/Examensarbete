@@ -3,7 +3,6 @@ import User from '../models/User.js';
 import { calculateNextOccurrence } from '../utils/calculateNextOccurrence.js';
 import { createCalendarEvent } from '../services/googleService.js';
 
-// GET /api/tasks
 export const getTasks = async (req, res, next) => {
   try {
     const tasks = await Task.find({ user: req.user._id });
@@ -13,7 +12,6 @@ export const getTasks = async (req, res, next) => {
   }
 };
 
-// POST /api/tasks
 export const createTask = async (req, res, next) => {
   try {
     const {
@@ -30,10 +28,8 @@ export const createTask = async (req, res, next) => {
       subtasks,
     } = req.body;
 
-    // Log for debugging
-    console.log("📦 Incoming task:", req.body);
+    console.log(" Incoming task:", req.body);
 
-    // Calculate recurring logic
     const nextOccurrence =
       isRecurring && time
         ? calculateNextOccurrence(time, recurring, repeatInterval)
@@ -57,7 +53,6 @@ export const createTask = async (req, res, next) => {
 
     const user = await User.findById(req.user._id);
 
-    // Optional: sync to Google Calendar if tokens exist
     if (user.googleTokens) {
       try {
         const eventId = await createCalendarEvent(user.googleTokens, task);
@@ -70,12 +65,11 @@ export const createTask = async (req, res, next) => {
 
     res.status(201).json(task);
   } catch (err) {
-    console.error("❌ Task creation failed:", err);
+    console.error(" Task creation failed:", err);
     next(err);
   }
 };
 
-// PUT /api/tasks/:id
 export const updateTask = async (req, res, next) => {
   try {
     const task = await Task.findOne({ _id: req.params.id, user: req.user._id });
@@ -95,7 +89,6 @@ export const updateTask = async (req, res, next) => {
   }
 };
 
-// DELETE /api/tasks/:id
 export const deleteTask = async (req, res, next) => {
   try {
     const task = await Task.findOneAndDelete({

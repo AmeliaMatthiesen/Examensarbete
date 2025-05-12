@@ -22,7 +22,7 @@ const authMiddleware = async (req, res, next) => {
       return next(error);
     }
 
-    req.user = user; // Detta används i t.ex. taskController
+    req.user = user; 
     next();
   } catch (err) {
     const error = new Error('Unauthorized: Invalid token');

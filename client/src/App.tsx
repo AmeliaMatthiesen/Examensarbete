@@ -22,7 +22,7 @@ function App() {
         await axios.get("/api/auth/verify");
         console.log("✅ Token verified");
       } catch {
-        console.warn("❌ Invalid token, logging out");
+        console.warn(" Invalid token, logging out");
         logout();
       }
     };

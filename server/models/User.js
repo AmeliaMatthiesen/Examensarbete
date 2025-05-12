@@ -17,10 +17,10 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    select: false // Viktigt för att undvika att lösenord skickas ut
+    select: false 
   },
   googleTokens: {
-    type: Object, // alt: beskriv strukturen om du vet vad som kommer
+    type: Object, 
     default: null
   }
 }, {

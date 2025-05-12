@@ -2,7 +2,6 @@ import { google } from 'googleapis';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// Säkerställ att alla miljövariabler finns
 const {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
@@ -10,7 +9,7 @@ const {
 } = process.env;
 
 if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REDIRECT_URI) {
-  throw new Error('❌ Google OAuth env variables missing. Check .env file!');
+  throw new Error(' Google OAuth env variables missing. Check .env file!');
 }
 
 // Initiera OAuth2-klienten
@@ -20,7 +19,6 @@ const oauth2Client = new google.auth.OAuth2(
   GOOGLE_REDIRECT_URI
 );
 
-// 🔐 Steg 1: Skapa auth-URL för Google Login
 export const getAuthUrl = () => {
   const scopes = ['https://www.googleapis.com/auth/calendar'];
 
@@ -31,17 +29,16 @@ export const getAuthUrl = () => {
     redirect_uri: GOOGLE_REDIRECT_URI
   });
 
-  console.log('🔗 Generated Google Auth URL:', url); // Debug-logg
+  console.log(' Generated Google Auth URL:', url); // Debug-logg
   return url;
 };
 
-// 🔁 Steg 2: Byt auth-code mot access/refresh tokens
 export const getTokens = async (code) => {
   try {
     const { tokens } = await oauth2Client.getToken(code);
     return tokens;
   } catch (error) {
-    console.error('❌ Failed to exchange auth code for tokens:', error.message);
+    console.error(' Failed to exchange auth code for tokens:', error.message);
     throw new Error('Google OAuth token exchange failed');
   }
 };
@@ -54,7 +51,6 @@ export const setCredentials = (tokens) => {
   oauth2Client.setCredentials(tokens);
 };
 
-// 📆 Steg 3: Skapa Google Calendar-händelse
 export const createCalendarEvent = async (tokens, task) => {
   try {
     setCredentials(tokens);
@@ -78,12 +74,11 @@ export const createCalendarEvent = async (tokens, task) => {
 
     return data.id;
   } catch (error) {
-    console.error('❌ Failed to create calendar event:', error.message);
+    console.error(' Failed to create calendar event:', error.message);
     throw new Error('Google Calendar sync failed (create)');
   }
 };
 
-// 📝 Uppdatera befintlig kalenderhändelse
 export const updateCalendarEvent = async (tokens, eventId, task) => {
   try {
     setCredentials(tokens);
@@ -106,12 +101,12 @@ export const updateCalendarEvent = async (tokens, eventId, task) => {
       resource: event
     });
   } catch (error) {
-    console.error('❌ Failed to update calendar event:', error.message);
+    console.error(' Failed to update calendar event:', error.message);
     throw new Error('Google Calendar sync failed (update)');
   }
 };
 
-// 🗑️ Radera kalenderhändelse
+
 export const deleteCalendarEvent = async (tokens, eventId) => {
   try {
     setCredentials(tokens);

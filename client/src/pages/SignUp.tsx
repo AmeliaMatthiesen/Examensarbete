@@ -1,14 +1,14 @@
 import { useState } from "react";
 import axios from "../api/axios";
-import { useNavigate } from "react-router-dom"; // ✅
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false); // ✅
-  const navigate = useNavigate(); // ✅
+  const [success, setSuccess] = useState(false); 
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +18,7 @@ const SignUp = () => {
       await axios.post("/api/auth/register", { name, email, password });
       setSuccess(true); // ✅
       setTimeout(() => {
-        navigate("/login"); // ⏳ efter 2 sekunder
+        navigate("/login");
       }, 2000);
     } catch (err) {
       setError("Failed to create account.");
@@ -57,7 +57,7 @@ const SignUp = () => {
           />
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          {success && <p className="text-green-600 text-sm">Account created! Redirecting...</p>} {/* ✅ */}
+          {success && <p className="text-green-600 text-sm">Account created! Redirecting...</p>}
 
           <button
             type="submit"

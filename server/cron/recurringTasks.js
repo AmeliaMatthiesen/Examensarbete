@@ -6,14 +6,12 @@ cron.schedule('0 * * * *', async () => {
   try {
     const now = new Date();
 
-    // Hämta tasks som ska upprepas nu eller tidigare
     const tasksToClone = await Task.find({
       isRecurring: true,
       nextOccurrence: { $lte: now }
     });
 
     for (const task of tasksToClone) {
-      // Skapa en ny task baserat på den gamla, men med nytt datum
       await Task.create({
         user: task.user,
         title: task.title,
@@ -25,14 +23,14 @@ cron.schedule('0 * * * *', async () => {
         repeatInterval: task.repeatInterval,
         nextOccurrence: null,
         subtasks: task.subtasks,
-        googleEventId: null // Undvik att återanvända gammalt Google Calendar-event
+        googleEventId: null 
       });
 
-      // Uppdatera originaltaskens nästa återkomst
+  
       const next = calculateNextOccurrence(
         task.nextOccurrence,
         task.recurring,
-        task.repeatInterval || 1 // Fallback ifall repeatInterval är undefined
+        task.repeatInterval || 1 
       );
 
       task.nextOccurrence = next;
@@ -41,6 +39,6 @@ cron.schedule('0 * * * *', async () => {
 
     console.log(`[cron] ✅ Recurring tasks processed (${tasksToClone.length}) at ${new Date().toISOString()}`);
   } catch (err) {
-    console.error('[cron] ❌ Failed to process recurring tasks:', err);
+    console.error('[cron]  Failed to process recurring tasks:', err);
   }
 });

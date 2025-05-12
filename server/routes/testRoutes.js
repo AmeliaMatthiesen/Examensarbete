@@ -5,7 +5,6 @@ import asyncHandler from '../middleware/asyncHandler.js';
 
 const router = express.Router();
 
-// Create a dummy task for the authenticated user
 router.post('/test', authMiddleware, asyncHandler(async (req, res) => {
   const dummyTask = new Task({
     user: req.user._id,

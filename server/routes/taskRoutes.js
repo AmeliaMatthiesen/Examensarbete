@@ -10,7 +10,6 @@ import {
 
 const router = express.Router();
 
-// Skydda alla routes med auth
 router.use(authMiddleware);
 
 router.get("/", asyncHandler(getTasks));

@@ -14,7 +14,7 @@ const TaskListByStatus = () => {
         const res = await axios.get(`/api/tasks?status=${status}`);
         setTasks(res.data);
       } catch (err) {
-        console.error("❌ Failed to fetch tasks", err);
+        console.error(" Failed to fetch tasks", err);
       }
     };
 

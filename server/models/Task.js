@@ -49,12 +49,11 @@ time: {
 },
 
 participants: {
-  type: String, // alt: [String] om flera personer
+  type: String, 
   default: "",
 },
 
 
-  // 🔁 Recurring logic
   isRecurring: {
     type: Boolean,
     default: false
@@ -88,13 +87,11 @@ participants: {
     default: null
   },
 
-  // 🔗 Google Calendar
   googleEventId: {
     type: String,
     default: null
   },
 
-  // ✅ Subtasks
   subtasks: [subtaskSchema]
 }, {
   timestamps: true

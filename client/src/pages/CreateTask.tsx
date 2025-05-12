@@ -41,9 +41,9 @@ const CreateTask = () => {
     try {
       await axios.post("/api/tasks", newTask);
       toast.success("Task created!");
-      navigate("/"); // Tillbaka till dashboard
+      navigate("/"); 
     } catch (err) {
-      console.error("❌ Failed to create task", err);
+      console.error(" Failed to create task", err);
     }
   };
 

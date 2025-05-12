@@ -17,7 +17,7 @@ const Dashboard = () => {
     logout();
     const auth2 = gapi.auth2?.getAuthInstance();
     if (auth2) {
-      auth2.signOut().then(() => console.log("🧼 Google logged out"));
+      auth2.signOut().then(() => console.log(" Google logged out"));
     }
   };
 

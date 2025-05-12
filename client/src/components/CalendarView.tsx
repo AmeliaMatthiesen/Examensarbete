@@ -90,7 +90,7 @@ import {
   
           allEvents.push(...mapped);
         } catch (err) {
-          console.warn("❌ Failed to fetch calendar:", id, err);
+          console.warn(" Failed to fetch calendar:", id, err);
         }
       }
   

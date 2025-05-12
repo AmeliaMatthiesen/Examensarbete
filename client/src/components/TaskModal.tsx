@@ -29,7 +29,7 @@ const TaskModal = ({ task, onClose, onUpdate }: Props) => {
       onUpdate();
       onClose();
     } catch (err) {
-      console.error("❌ Failed to update task", err);
+      console.error(" Failed to update task", err);
     } finally {
       setLoading(false);
     }

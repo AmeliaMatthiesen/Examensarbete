@@ -43,7 +43,6 @@ const DraggableCard = ({ task, onClick }: { task: Task; onClick: () => void }) =
   const handlePointerUp = (e: React.PointerEvent) => {
     const diff = e.timeStamp - (pointerDown.current ?? 0);
     if (diff < 200) {
-      // kort klick = öppna modal
       onClick();
     }
   };
@@ -80,7 +79,7 @@ const Board = () => {
       const res = await axios.get("/api/tasks");
       setTasks(res.data);
     } catch (err) {
-      console.error("❌ Failed to fetch tasks", err);
+      console.error(" Failed to fetch tasks", err);
     }
   };
 
